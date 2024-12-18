@@ -124,11 +124,11 @@ const Hero = () => {
                   <p className="mt-3 text-xs text-gray-500 md:!mt-1">
                     PDF, doc, docx or word file (maximum 5 files)
                   </p>
-                                      <button className="justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 flex h-10 w-[128px] items-center space-x-2 rounded-md border bg-gradient-to-tr from-[#FF477E] to-primary px-6 py-2 md:!mt-6 md:h-12 md:w-40">
-                    <span className="text-sm font-medium text-white md:text-base">
+                    <div className="btn btn-primary bg-gradient-to-tr from-[#FF477E] to-primary text-white hover:bg-primary/90 focus:outline-none focus:ring-1 focus:ring-ring focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 h-10 w-[128px] md:h-12 md:w-40 md:!mt-6">
                       Upload
-                    </span>
-                  </button>
+                    </div>
+
+                  </div>
                 </div>
               </div>
             </div>
@@ -136,7 +136,7 @@ const Hero = () => {
         </div>
       </div>
     </div>
-    </div>
+    
   )
 }
 
