@@ -33,6 +33,7 @@ const UploadComponent = () => {
             const rawResponses = response?.data || [];
             const parsedResponses = rawResponses.map(item => JSON.parse(item?.Response));
             setParsedData(parsedResponses);
+            console.log(parsedResponses);
             setResponseMessage('Upload Successful');
         } catch (error) {
             console.error(error);
@@ -67,11 +68,20 @@ const UploadComponent = () => {
 
             {responseMessage && <p>{responseMessage}</p>}
 
-            {/* Render DownloadCV only if data is loaded */}
+            {/* Render parsed data */}
             {parsedData.length > 0 && (
                 <div style={{ marginTop: '20px' }}>
-                    <DownloadCV parsedData={parsedData} />
+                    <h3>Parsed Data:</h3>
+                    <DownloadCV cvData={parsedData} />
+                    <ul>
+                        {parsedData.map((data, index) => (
+                            <li key={index}>
+                                <pre>{JSON.stringify(data, null, 2)}</pre>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
+
             )}
         </div>
     );

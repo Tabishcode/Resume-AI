@@ -90,6 +90,7 @@ const ResumeParserSteps = () => {
                     </div>
                 ))}
             </div>
+             
         </div>
     );
 };
