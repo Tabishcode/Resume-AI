@@ -12,9 +12,9 @@ const Landing = () => {
     return (
         <div>
             <Hero />
-            <ResumeParserFeatures/>
-            <FAQs/>
-            <Upload/>
+            {/* <ResumeParserFeatures/>
+            <FAQs/> */}
+        
         </div>
     )
 }

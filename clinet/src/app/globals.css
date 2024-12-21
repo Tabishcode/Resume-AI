@@ -4,21 +4,28 @@
 
 /* Custom Equal Shadow on All Sides */
 .custom-shadow {
-    box-shadow: 0 4px 8px rgba(169, 224, 236, 0.5),
-        0 -4px 8px rgba(169,
-            224,
-            236,
-            0.5),
-        -4px 0 8px rgba(169,
-            224,
-            236,
-            0.5),
-        4px 0 8px rgba(169,
-            224,
-            236,
-            0.5),
-        0 0 8px rgba(169,
-            224,
-            236,
-            0.5);
+  box-shadow: 0 4px 8px rgba(169, 224, 236, 0.5),
+    0 -4px 8px rgba(169, 224, 236, 0.5), -4px 0 8px rgba(169, 224, 236, 0.5),
+    4px 0 8px rgba(169, 224, 236, 0.5), 0 0 8px rgba(169, 224, 236, 0.5);
+}
+
+
+@keyframes magic-border {
+  0% {
+    border-color: rgba(255, 255, 255, 0);
+    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0);
+  }
+  50% {
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.5);
+  }
+  100% {
+    border-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 1);
+  }
+}
+
+.animate-magic-border {
+  animation: magic-border 2s infinite;
+  border-radius: 1rem;
 }

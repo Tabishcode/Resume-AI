@@ -12,7 +12,7 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        primary: '#00CFCF',
+        primary: '#A768F0',
       },
       fontFamily: {
         satoshi: ["Satoshi", "sans-serif"],

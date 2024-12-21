@@ -50,7 +50,6 @@ def process_image(image_path):
 
         # Combine extracted data
         combined_text = "\n".join(extracted_data)
-
         # AI prompt
         prompt_text = f"""
 You are given data scraped from a resume. Your task is to strictly categorize it into the following predefined keys: 
@@ -70,13 +69,15 @@ You are given data scraped from a resume. Your task is to strictly categorize it
 - GitHub
 - Other Links.
 
-**Guidelines:**
-1. The output **must** be in JSON format.
-2. Every key **must** be included in the output, even if the value is `[]` (for arrays) or an empty string (`""`) for missing data.
-3. Do **not** create any keys or fields beyond the ones provided above.
-4. If the input data doesn't match a predefined key, it should **not** appear in the JSON output.
-5. Ensure data categorization is precise based on the provided keys.
-
+**Rules:**
+1. Output must be in JSON format.
+2. Include every key, even if the value is an empty string or array.
+3. Do not add any other keys or fields.
+4. Exclude any data that doesn't match a predefined key.
+5. Categorize data accurately.
+6. Summarize all sections's espically Experience, Education, Projects and Profile to few words.
+7. Just for Education, Experience and Projects the value should be an array where at each index is a descriptive string of that particular item related to that section.
+8. Return all content within a single section, no sub-sections.
 Here is the data to process:
 {combined_text}
 """
@@ -87,7 +88,7 @@ Here is the data to process:
         return {"Image": os.path.basename(image_path), "Response": actual_json}
     except Exception as e:
         return {"error": str(e)}
-
+# and do not add line breks between text very frequently but add commas, colons, full stops between text
 
 def process_images_in_parallel(image_dir):
     image_paths = [os.path.join(image_dir, img) for img in os.listdir(image_dir) if img.endswith((".png", ".jpg", ".jpeg"))]

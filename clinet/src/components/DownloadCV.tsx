@@ -1,123 +1,204 @@
 import React from "react";
-import { jsPDF } from "jspdf";
+import {
+    PDFDownloadLink,
+    Document,
+    Page,
+    Text,
+    View,
+    StyleSheet,
+} from "@react-pdf/renderer";
 
-const CVDownloadComponent = ({ cvData }) => {
-    const generatePDF = () => {
-        const doc = new jsPDF();
+// PDF Styling
+const styles = StyleSheet.create({
+    page: {
+        backgroundColor: "#f9f9f9",
+        padding: 20,
+        fontFamily: "Helvetica",
+        fontSize: 12, // Increased font size
+        lineHeight: 1.5,
+    },
+    header: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 15,
+        borderBottom: "1px solid #ddd",
+        paddingBottom: 8,
+    },
+    profileSection: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+    },
+    headerText: {
+        fontSize: 18, // Increased font size
+        fontWeight: "bold",
+        marginBottom: 4,
+        color: "#002855", // Professional dark blue
+    },
+    linksSection: {
+        textAlign: "right",
+        color: "#555555", // Mid gray for links
+        fontSize: 14, // Adjusted font size
+    },
+    section: {
+        marginBottom: 12, // Adjusted margin for spacing
+    },
+    sectionHeading: {
+        fontSize: 16, // Increased font size
+        fontWeight: "bold",
+        marginBottom: 8,
+        color: "#1C1C1C", // Dark gray for section headings
+    },
+    text: {
+        marginBottom: 5,
+        fontSize: 14, // Increased font size
+        color: "#333333", // Neutral dark gray for general text
+    },
+    inlineSection: {
+        display: "flex",
+        flexDirection: "row",
+        marginBottom: 12,
+    },
+    boldText: {
+        fontWeight: "bold",
+        marginRight: 5,
+        fontSize: 14, // Adjusted font size
+        color: "#4B89DC", // Lighter professional blue for emphasis
+    },
+});
 
-        doc.setFont("helvetica", "bold");
-        doc.text(cvData.Name, 10, 10);
 
-        doc.setFont("helvetica", "normal");
-        doc.text(`Phone: ${cvData.Phone}`, 10, 20);
-        doc.text(`Email: ${cvData.Email}`, 10, 30);
-        doc.text(`LinkedIn: ${cvData.LinkedIn}`, 10, 40);
-        doc.text(`GitHub: ${cvData.GitHub}`, 10, 50);
+// PDF Document Component
+const MyCVDocument = ({ data }) => (
+    <Document>
+        {data.map((cvData, index) => (
+            <Page key={index} style={styles.page}>
+                {/* Header */}
+                <View style={styles.header}>
+                    <View style={styles.profileSection}>
+                        <Text style={styles.headerText}>{cvData.Name}</Text>
+                        <Text>Email: {cvData.Email}</Text>
+                        <Text>Phone: {cvData.Phone}</Text>
+                    </View>
+                    <View style={styles.linksSection}>
+                        {cvData.LinkedIn && <Text>LinkedIn: {cvData.LinkedIn}</Text>}
+                        {cvData.GitHub && <Text>GitHub: {cvData.GitHub}</Text>}
+                    </View>
+                </View>
+                {["Profile", "Skills", "Languages"].map((section) => {
+                    const sectionData = cvData[section];
+                    if (!sectionData || sectionData.length === 0) return null;
 
-        // Education Section
-        doc.text("Education:", 10, 60);
-        cvData.Education.forEach((edu, index) => {
-            const yOffset = 70 + index * 20;
-            doc.text(`${edu.Degree}, ${edu.Institution}`, 10, yOffset);
-            doc.text(`${edu.Dates} | ${edu.Location}`, 10, yOffset + 10);
-            doc.text("Coursework:", 10, yOffset + 20);
-            edu.Coursework.forEach((course, i) => {
-                doc.text(`- ${course}`, 15, yOffset + 30 + i * 10);
-            });
-        });
+                    return (
+                        <View key={section} style={styles.section}>
+                            <Text style={styles.sectionHeading}>{section}</Text>
+                            <View style={{ marginLeft: 10 }}>
+                                <Text>
+                                    {Array.isArray(sectionData)
+                                        ? sectionData.join(", ")
+                                        : sectionData}
+                                </Text>
+                            </View>
+                        </View>
+                    );
+                })}
+                {["Education", "Experience", "Certifications", "Projects"].map((section) => {
+                    const sectionData = cvData[section];
+                    if (!sectionData || sectionData.length === 0) return null;
 
-        // Experience Section
-        doc.text("Experience:", 10, 140);
-        cvData.Experience.forEach((exp, index) => {
-            const yOffset = 150 + index * 40;
-            doc.text(`${exp.Title} at ${exp.Company}`, 10, yOffset);
-            doc.text(`${exp.Dates} | ${exp.Location}`, 10, yOffset + 10);
-            exp.Description.forEach((desc, i) => {
-                doc.text(`- ${desc}`, 15, yOffset + 20 + i * 10);
-            });
-        });
+                    return (
+                        <View style={styles.section} key={section}>
+                            <Text style={styles.sectionHeading}>{section}</Text>
+                            <View style={{ marginLeft: 10 }}>
+                                {Array.isArray(sectionData)
+                                    ? sectionData.map((item, idx) => (
+                                        <Text key={idx}>{item}</Text>
+                                    ))
+                                    : <Text>{sectionData}</Text>}
+                            </View>
+                        </View>
+                    );
+                })}
+                {["Interests"].map((section) => {
+                    const sectionData = cvData[section];
+                    if (!sectionData || sectionData.length === 0) return null;
 
-        // Projects Section
-        doc.text("Projects:", 10, 200);
-        cvData.Projects.forEach((project, index) => {
-            const yOffset = 210 + index * 40;
-            doc.text(`${project.Name} (${project.Date})`, 10, yOffset);
-            doc.text(`Technologies: ${project.Technologies}`, 10, yOffset + 10);
-            project.Links.forEach((link, i) => {
-                doc.text(`- ${link}`, 15, yOffset + 20 + i * 10);
-            });
-            project.Description.forEach((desc, i) => {
-                doc.text(`- ${desc}`, 15, yOffset + 40 + i * 10);
-            });
-        });
+                    return (
+                        <View
+                            key={section}
+                            style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                marginBottom: 10,
+                            }}
+                        >
+                            <Text style={{ fontWeight: "bold", marginRight: 5 }}>{section}:</Text>
+                            <Text>
+                                {Array.isArray(sectionData)
+                                    ? sectionData.join(", ")
+                                    : sectionData}
+                            </Text>
+                        </View>
+                    );
+                })}
+            </Page>
+        ))}
+    </Document>
+);
 
-        doc.save("CV.pdf");
-    };
+// Main Component
+const CVDownloadComponent = ({ dataNew }) => {
+    console.log("The data received is: ", dataNew);
 
     return (
-        <div>
-            <h1>{cvData.Name}</h1>
-            <p>Phone: {cvData.Phone}</p>
-            <p>Email: {cvData.Email}</p>
-            <p>
-                LinkedIn: <a href={`https://${cvData.LinkedIn}`}>{cvData.LinkedIn}</a>
-            </p>
-            <p>
-                GitHub: <a href={`https://${cvData.GitHub}`}>{cvData.GitHub}</a>
-            </p>
+        <div
+            className="container"
+            style={{
+                maxWidth: "800px",
+                margin: "0 auto",
+                padding: "20px",
+                border: "1px solid #ddd",
+                borderRadius: "10px",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                backgroundColor: "#fff",
+            }}
+        >
+            <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Download CVs</h2>
 
-            <h2>Education</h2>
-            {cvData.Education.map((edu, index) => (
-                <div key={index}>
-                    <h3>{edu.Degree}</h3>
-                    <p>
-                        {edu.Institution}, {edu.Location}
-                    </p>
-                    <p>{edu.Dates}</p>
-                    <ul>
-                        {edu.Coursework.map((course, i) => (
-                            <li key={i}>{course}</li>
-                        ))}
-                    </ul>
-                </div>
-            ))}
-
-            <h2>Experience</h2>
-            {cvData.Experience.map((exp, index) => (
-                <div key={index}>
-                    <h3>{exp.Title} at {exp.Company}</h3>
-                    <p>{exp.Dates} | {exp.Location}</p>
-                    <ul>
-                        {exp.Description.map((desc, i) => (
-                            <li key={i}>{desc}</li>
-                        ))}
-                    </ul>
-                </div>
-            ))}
-
-            <h2>Projects</h2>
-            {cvData.Projects.map((project, index) => (
-                <div key={index}>
-                    <h3>{project.Name}</h3>
-                    <p>Technologies: {project.Technologies}</p>
-                    <ul>
-                        {project.Links.map((link, i) => (
-                            <li key={i}>
-                                <a href={`https://${link}`}>{link}</a>
-                            </li>
-                        ))}
-                    </ul>
-                    <ul>
-                        {project.Description.map((desc, i) => (
-                            <li key={i}>{desc}</li>
-                        ))}
-                    </ul>
-                </div>
-            ))}
-
-            <button onClick={generatePDF}>Download PDF</button>
+            <div style={{ textAlign: "center", marginTop: "20px" }}>
+                <PDFDownloadLink
+                    document={<MyCVDocument data={dataNew} />}
+                    fileName="dynamic-cvs.pdf"
+                >
+                    {({ loading }) =>
+                        loading ? (
+                            <button
+                                style={{ padding: "10px 20px", background: "#ccc" }}
+                            >
+                                Preparing PDF...
+                            </button>
+                        ) : (
+                            <button
+                                style={{
+                                    padding: "10px 20px",
+                                    background: "#4CAF50",
+                                    color: "#fff",
+                                    border: "none",
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                }}
+                            >
+                                Download CVs
+                            </button>
+                        )
+                    }
+                </PDFDownloadLink>
+            </div>
         </div>
     );
 };
 
 export default CVDownloadComponent;
+
