@@ -1,8 +1,15 @@
 'use client'; // Ensure this is a client-side component
 import { useState, useEffect } from 'react';
 import DownloadCV from '../../components/DownloadCV';
+import axios from 'axios';
+import DownloadCSV from '@/components/DownloadCSV';
+import { useUser } from '@clerk/clerk-react';
+
+
 
 const CVParsing = () => {
+  const { user } = useUser();
+  const userId = user.id;
   const [filesMetadata, setFilesMetadata] = useState<
     { name: string; type: string; size: number }[]
   >([]);
@@ -41,6 +48,25 @@ const CVParsing = () => {
     setSelectedIndex(index); // Set the selected file index
   };
 
+  const handleSave = async () => {
+    try {
+      // Loop through each item in parsedData and send a POST request for each
+      for (let i = 0; i < parsedData.length; i++) {
+        console.log(userId)
+        const obj = {
+          data: parsedData[i],
+          userId: userId, // Send the user ID with the data
+        };
+        const response = await axios.post('http://127.0.0.1:5000/store', obj,
+          { headers: { 'Content-Type': 'application/json' } });
+        console.log('Response:', response);
+        alert("Save Successful!");
+      }
+    } catch (error) {
+      console.error('Error sending requests:', error);
+    }
+  };
+
   return (
     <div className="flex p-1">
       <div className="p-4 w-[25%]">
@@ -63,19 +89,23 @@ const CVParsing = () => {
         ) : (
           <p className="text-xs text-gray-600">No files received.</p>
         )}
-        <div className="absolute top-[450px] left-28 w-[60vw] ">
-          <button className='px-10 bg-primary hover:bg-primary/90 btn'>Save</button>
-        </div>
-        <div className="absolute top-[490px] left-[-220px] w-[60vw]">
-          
+        <div className='flex gap-3 mt-8'>
+        <div className="  ">
           <DownloadCV dataNew={parsedData} />
+        </div>
+        <div className=" ">
+          <DownloadCSV data={parsedData} />
+        </div>
+        </div>
+        <div className={user ? 'mt-2 flex': 'mt-2 hidden'}>
+          <button className='px-20 bg-green-500 hover:bg-green-500/90 btn text-white font-medium' onClick={handleSave}>Save to Database</button>
         </div>
       </div>
 
       <div className="w-[75%]">
         {/* Parsed Data */}
         <h2 className="text-xl font-semibold  mb-4">Parsed Data:</h2>
-        {parsedData.length > 0 && selectedIndex !== null ? (
+        {parsedData.length > 0 && selectedIndex !== -1 ? (
           <div className="relative flex justify-center items-center min-h-screen bg-gray-100">
             {/* Parsed Data Container */}
             <div className="overflow-y-auto max-h-[600px] bg-white rounded-lg shadow-lg border border-gray-300 ">

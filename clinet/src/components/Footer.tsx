@@ -19,7 +19,7 @@ const Footer = () => {
                 <p>
                     AI Resume Parser
                     <br />
-                    Providing reliable tech since 1992
+                    Trusted by job boards, HR platforms, ATS, and recruiters 
                 </p>
             </aside>
             <nav>

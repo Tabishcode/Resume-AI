@@ -50,7 +50,7 @@ const ResumeParserFeatures = () => {
             <div className="flex justify-center mt-16">
                 <a
                     className="inline-flex items-center justify-center space-x-2 whitespace-nowrap rounded-md ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 w-[195px] h-12 font-bold text-[15px]"
-                    href="https://app.skima.ai/signup"
+                    href=""
                     target="_blank"
                     rel="noopener noreferrer"
                 >

@@ -1,9 +1,10 @@
+import DisplayComponent from '@/components/Display'
 import React from 'react'
 
 const page = () => {
   return (
     <div>
-        here will come all resumes from db
+        <DisplayComponent/>
     </div>
   )
 }

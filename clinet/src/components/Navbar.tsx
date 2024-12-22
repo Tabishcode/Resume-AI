@@ -3,6 +3,7 @@ import logo from '../../public/images/logo.svg';
 import Image from 'next/image';
 import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import Link from 'next/link'; // Importing Link for navigation
+import { useUser } from '@clerk/clerk-react';
 
 const Navbar = () => {
   return (
@@ -17,12 +18,12 @@ const Navbar = () => {
         <Link href="/" className="text-lg text-gray-700 hover:text-primary">
           Home
         </Link>
-        <Link href="/resumes" className="text-lg text-gray-700 hover:text-primary">
-          Resumes
+        <Link href="/resumes" className="text-lg font-medium text-gray-700 hover:text-primary">
+          History
         </Link>
-        <a href="https://zety.com/blog/resume-parsing" className="text-lg text-gray-700 hover:text-primary">
+        <Link href="/blogs" className="text-lg text-gray-700 hover:text-primary">
           Blogs
-        </a>
+        </Link>
       </div>
 
       {/* Right aligned - User authentication buttons */}
@@ -43,7 +44,18 @@ const Navbar = () => {
 
         {/* Show UserButton for signed-in users */}
         <SignedIn>
-          <UserButton />
+         
+            <UserButton
+              appearance={{
+                elements: {
+                  userButtonAvatarBox: {
+                    width: '40px', // Adjust width
+                    height: '40px', // Adjust height
+                  },
+                },
+              }}
+            />
+          
         </SignedIn>
       </div>
     </nav>

@@ -24,8 +24,8 @@
     box-shadow: 0 0 15px 5px rgba(255, 255, 255, 1);
   }
 }
-
-.animate-magic-border {
-  animation: magic-border 2s infinite;
-  border-radius: 1rem;
+.new {
+  background: linear-gradient(to right, #e2e8f0, #ffffff, #f1f5f9);
 }
+
+

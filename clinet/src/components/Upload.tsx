@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { PropagateLoader } from "react-spinners";
 
 const UploadComponent = ({ initialFiles }) => {
   const [files, setFiles] = useState(
@@ -19,7 +20,6 @@ const UploadComponent = ({ initialFiles }) => {
 
   useEffect(() => {
     if (parsedData.length > 0) {
-      // Store both parsed data and files metadata in localStorage
       const filesMetadata = files.map((file) => ({
         name: file.name,
         type: file.type,
@@ -57,7 +57,7 @@ const UploadComponent = ({ initialFiles }) => {
         JSON.parse(item?.Response)
       );
       setParsedData(parsedResponses);
-      console.log(parsedResponses)
+      console.log(parsedResponses);
       setResponseMessage("Upload Successful!");
     } catch (error) {
       console.error(error);
@@ -69,21 +69,33 @@ const UploadComponent = ({ initialFiles }) => {
 
   const closeComponent = () => {
     window.location.reload();
-    
   };
 
   return (
-    <div className="relative bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white shadow-xl rounded-lg p-8 max-w-4xl mx-auto mt-10">
-      {/* Cross Button */}
+    <div className="relative bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white shadow-xl rounded-lg h-[400px] p-8 w-[1100px] mx-auto mt-10">
+      {/* Close Button */}
       <button
         onClick={closeComponent}
-        className="absolute top-4 right-4 text-gray-200 hover:text-white text-xl font-bold"
+        className="absolute top-4 right-4 btn btn-circle"
       >
-        Close
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
       </button>
 
       <h2 className="text-3xl font-extrabold mb-6 text-center">
-        Upload Your Files
+        Start Parsing Now with a Single Click
       </h2>
 
       {/* File Display */}
@@ -107,17 +119,14 @@ const UploadComponent = ({ initialFiles }) => {
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
-          {loading ? "Uploading..." : "Upload Files"}
+          {loading ? "Data is Parsing..." : "Start Parsing"}
         </button>
       </div>
 
-      {/* Modern Loader */}
+      {/* Minimalist Loader */}
       {loading && (
-        <div className="flex justify-center items-center mt-6">
-          <div className="relative w-16 h-16">
-            <div className="absolute w-full h-full border-4 border-dashed rounded-full border-white animate-spin"></div>
-            <div className="absolute w-full h-full border-4 border-dotted rounded-full border-pink-300 animate-spin-slow"></div>
-          </div>
+        <div className="flex justify-center items-end absolute bottom-12 left-0 right-0">
+          <PropagateLoader color="#36d7b7" size={25} />
         </div>
       )}
 

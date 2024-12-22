@@ -19,6 +19,7 @@ model_yolo = YOLO(r"E:\Artifical Intelligence\Project\Cv Parsing.v8i.yolov8\best
 
 
 def process_image(image_path):
+    print(image_path, "is pathh")
     try:
         image = cv2.imread(image_path)
         if image is None:
@@ -83,6 +84,7 @@ Here is the data to process:
 """
 
         response = model.generate_content(prompt_text)
+        print("hello i am in")
         match = re.search(r"\{.*\}", response.text, re.DOTALL)
         actual_json = match.group(0) if match else response.text.strip()
         return {"Image": os.path.basename(image_path), "Response": actual_json}

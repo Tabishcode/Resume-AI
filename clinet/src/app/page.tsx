@@ -1,11 +1,13 @@
-import AuthComponent from "@/components/AuthComponent";
-import Landing from "../pages/Landing";
+import Hero from "@/components/Hero";
+import ResumeParserFeatures from "@/components/ResumeParserFeatures";
+import FAQs from "@/components/FAQs";
 
 export default function Home() {
   return (
     <>
-      <Landing />
-      {/* <AuthComponent /> */}
+      <Hero />
+      <ResumeParserFeatures />
+      <FAQs />
     </>
   );
 }

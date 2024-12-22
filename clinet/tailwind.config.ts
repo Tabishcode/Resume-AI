@@ -13,6 +13,7 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         primary: '#A768F0',
+        loggedInC: '#FFA1B0'
       },
       fontFamily: {
         satoshi: ["Satoshi", "sans-serif"],

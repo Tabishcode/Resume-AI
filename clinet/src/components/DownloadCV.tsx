@@ -154,17 +154,17 @@ const CVDownloadComponent = ({ dataNew }) => {
 
     return (
         <div className="">
-            <div className="text-center mt-5">
+            <div className="text-center">
                 <PDFDownloadLink
                     document={<MyCVDocument data={dataNew} />}
                     fileName="dynamic-cvs.pdf"
                 >
                     {({ loading }) =>
                         loading ? (
-                            <button className="px-5 py-2 bg-gray-300">Preparing PDF...</button>
+                            <button className="px-1 py-2 bg-gray-300">Preparing PDF...</button>
                         ) : (
-                            <button className="px-5 py-2 bg-green-500 text-white border-none rounded-md cursor-pointer">
-                                Download Graduatae Book
+                                <button className="btn bg-primary hover:bg-primary/90 text-white cursor-pointer text-sm h-10 px-4 py-2 font-medium">
+                                Download PDF
                             </button>
                         )
                     }
