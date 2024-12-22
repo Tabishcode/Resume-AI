@@ -77,7 +77,7 @@ You are given data scraped from a resume. Your task is to strictly categorize it
 5. Categorize data accurately.
 6. Summarize all sections's espically Experience, Education, Projects and Profile to few words.
 7. Just for Education, Experience and Projects the value should be an array where at each index is a descriptive string of that particular item related to that section.
-8. Return all content within a single section, no sub-sections.
+8. Return all content within a single section, no sub-sections. make all sections as an array
 Here is the data to process:
 {combined_text}
 """

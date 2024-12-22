@@ -153,50 +153,25 @@ const CVDownloadComponent = ({ dataNew }) => {
     console.log("The data received is: ", dataNew);
 
     return (
-        <div
-            className="container"
-            style={{
-                maxWidth: "800px",
-                margin: "0 auto",
-                padding: "20px",
-                border: "1px solid #ddd",
-                borderRadius: "10px",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                backgroundColor: "#fff",
-            }}
-        >
-            <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Download CVs</h2>
-
-            <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <div className="">
+            <div className="text-center mt-5">
                 <PDFDownloadLink
                     document={<MyCVDocument data={dataNew} />}
                     fileName="dynamic-cvs.pdf"
                 >
                     {({ loading }) =>
                         loading ? (
-                            <button
-                                style={{ padding: "10px 20px", background: "#ccc" }}
-                            >
-                                Preparing PDF...
-                            </button>
+                            <button className="px-5 py-2 bg-gray-300">Preparing PDF...</button>
                         ) : (
-                            <button
-                                style={{
-                                    padding: "10px 20px",
-                                    background: "#4CAF50",
-                                    color: "#fff",
-                                    border: "none",
-                                    borderRadius: "5px",
-                                    cursor: "pointer",
-                                }}
-                            >
-                                Download CVs
+                            <button className="px-5 py-2 bg-green-500 text-white border-none rounded-md cursor-pointer">
+                                Download Graduatae Book
                             </button>
                         )
                     }
                 </PDFDownloadLink>
             </div>
         </div>
+
     );
 };
 

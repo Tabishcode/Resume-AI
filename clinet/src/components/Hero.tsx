@@ -1,14 +1,22 @@
 'use client';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { IoIosCloudUpload } from "react-icons/io";
 import UploadComponent from './Upload';
+import Link from 'next/link';
+import { useUser } from '@clerk/clerk-react';
+
 
 const Hero = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const fileInputRef = useRef(null);  // Ref to access the file input element
-
+  const { user } = useUser();  // Get the current logged-in user info from Clerk
+  const maxFiles = user ? 10 : 3;
   const handleFileSelection = (e) => {
     const files = Array.from(e.target.files);
+    if (selectedFiles.length + files.length > maxFiles) {
+      alert(`You can only upload a maximum of ${maxFiles} files.`);
+      return;
+    }
     setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
     console.log("Selected files:", files);
   };
@@ -177,6 +185,8 @@ const Hero = () => {
       {/* Upload Component */}
       {selectedFiles.length > 0 && (
         <div className='absolute top-20 right-20'>
+          
+          <Link href={{ pathname: "/CVParsing", query: { message: JSON.stringify(selectedFiles) } }}/>
         <UploadComponent initialFiles={selectedFiles} />
         </div>
       )}

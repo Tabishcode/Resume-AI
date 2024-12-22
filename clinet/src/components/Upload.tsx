@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import DownloadCV from "./DownloadCV";
+import { useRouter } from "next/navigation";
 
 const UploadComponent = ({ initialFiles }) => {
   const [files, setFiles] = useState(
@@ -11,13 +11,29 @@ const UploadComponent = ({ initialFiles }) => {
   const [parsedData, setParsedData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
+
   useEffect(() => {
     setFiles(Array.isArray(initialFiles) ? initialFiles : []);
   }, [initialFiles]);
 
+  useEffect(() => {
+    if (parsedData.length > 0) {
+      // Store both parsed data and files metadata in localStorage
+      const filesMetadata = files.map((file) => ({
+        name: file.name,
+        type: file.type,
+        size: file.size,
+      }));
+      localStorage.setItem("selectedFiles", JSON.stringify(filesMetadata));
+      localStorage.setItem("parsedData", JSON.stringify(parsedData));
+      router.push("/CVParsing");
+    }
+  }, [parsedData, files, router]);
+
   const handleUpload = async () => {
     if (!files.length) {
-      setResponseMessage("Select a file first");
+      setResponseMessage("Please select a file first.");
       return;
     }
 
@@ -25,7 +41,7 @@ const UploadComponent = ({ initialFiles }) => {
     files.forEach((file) => formData.append("images", file));
 
     setLoading(true);
-    setResponseMessage("Uploading...");
+    setResponseMessage("");
 
     try {
       const response = await axios.post(
@@ -41,112 +57,75 @@ const UploadComponent = ({ initialFiles }) => {
         JSON.parse(item?.Response)
       );
       setParsedData(parsedResponses);
-      setResponseMessage("Upload Successful");
+      console.log(parsedResponses)
+      setResponseMessage("Upload Successful!");
     } catch (error) {
       console.error(error);
-      setResponseMessage("Error during upload");
+      setResponseMessage("An error occurred during upload.");
     } finally {
       setLoading(false);
     }
   };
 
+  const closeComponent = () => {
+    window.location.reload();
+    
+  };
+
   return (
-    <div className="bg-black text-white w-[1100px] h-[500px] p-5">
-      <div className="text-right">
-        <h2>Your Files</h2>
+    <div className="relative bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white shadow-xl rounded-lg p-8 max-w-4xl mx-auto mt-10">
+      {/* Cross Button */}
+      <button
+        onClick={closeComponent}
+        className="absolute top-4 right-4 text-gray-200 hover:text-white text-xl font-bold"
+      >
+        Close
+      </button>
 
-        {files.length > 0 && (
-          <ul className="list-disc pl-5">
-            {files.map((file, index) => (
-              <li key={index}>{file.name}</li>
-            ))}
-          </ul>
-        )}
+      <h2 className="text-3xl font-extrabold mb-6 text-center">
+        Upload Your Files
+      </h2>
 
+      {/* File Display */}
+      <div className="grid grid-cols-3 lg:grid-cols-5 gap-2 mb-6">
+        {files.map((file, index) => (
+          <div
+            key={index}
+            className="bg-white text-gray-800 rounded-full px-2 py-1 text-xs font-medium truncate shadow hover:shadow-lg transition duration-200"
+          >
+            {file.name}
+          </div>
+        ))}
+      </div>
+
+      {/* Upload Button */}
+      <div className="text-center">
         <button
           onClick={handleUpload}
           disabled={loading}
-          className="bg-[#FF477E] text-white py-2 px-4 rounded-md"
+          className={`bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-full text-lg ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
-          {loading ? "Uploading..." : "Upload"}
+          {loading ? "Uploading..." : "Upload Files"}
         </button>
-
-        {responseMessage && <p>{responseMessage}</p>}
       </div>
 
-      {parsedData.length > 0 && (
-        <div>
-          <DownloadCV dataNew={parsedData}/>
-        <div className="overflow-y-auto h-[500px] w-[700px] text-left absolute bg-black top-2">
-          <h3 className="text-center text-2xl mb-5">Parsed Data:</h3>
-          
-          <div className="mt-5 font-sans leading-6">
-            <h3 className="text-center text-3xl mb-5">Parsed CV</h3>
-
-            {parsedData.map((data, index) => (
-              <div
-                key={index}
-                className="mb-8 p-5 border border-gray-300 rounded-lg"
-              >
-                <h4 className="text-xl mb-3 text-gray-800">{data.Name}</h4>
-                <p className="text-lg text-gray-600">{data.Profile}</p>
-
-                <div className="mt-5">
-                  <h5 className="text-xl mb-3">Education:</h5>
-                  <ul className="pl-5 list-disc">
-                    {data.Education &&
-                      data.Education.map((edu, idx) => (
-                        <li key={idx} className="text-lg mb-2">
-                          {edu}
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-
-                <div className="mt-5">
-                  <h5 className="text-xl mb-3">Skills:</h5>
-                  <ul className="pl-5 list-disc">
-                    {data.Skills &&
-                      data.Skills.map((skill, idx) => (
-                        <li key={idx} className="text-lg mb-2">
-                          {skill}
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-
-                <div className="mt-5">
-                  <h5 className="text-xl mb-3">Projects:</h5>
-                  <ul className="pl-5 list-disc">
-                    {data.Projects &&
-                      data.Projects.map((project, idx) => (
-                        <li key={idx} className="text-lg mb-2">
-                          {project}
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-
-                <div className="mt-5">
-                  <h5 className="text-xl mb-3">Contact Information:</h5>
-                  <p className="text-lg mb-2">
-                    <strong>Phone:</strong> {data.Phone}
-                  </p>
-                  <p className="text-lg mb-2">
-                    <strong>Email:</strong> {data.Email}
-                  </p>
-                  <p className="text-lg mb-2">
-                    <strong>LinkedIn:</strong> {data.LinkedIn}
-                  </p>
-                  <p className="text-lg mb-2">
-                    <strong>GitHub:</strong> {data.GitHub}
-                  </p>
-                </div>
-              </div>
-            ))}
+      {/* Modern Loader */}
+      {loading && (
+        <div className="flex justify-center items-center mt-6">
+          <div className="relative w-16 h-16">
+            <div className="absolute w-full h-full border-4 border-dashed rounded-full border-white animate-spin"></div>
+            <div className="absolute w-full h-full border-4 border-dotted rounded-full border-pink-300 animate-spin-slow"></div>
           </div>
         </div>
-        </div>
+      )}
+
+      {/* Response Message */}
+      {responseMessage && (
+        <p className="mt-6 text-center text-xl font-semibold">
+          {responseMessage}
+        </p>
       )}
     </div>
   );
