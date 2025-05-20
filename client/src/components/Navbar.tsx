@@ -3,7 +3,7 @@ import logo from '../../public/images/logo.svg';
 import Image from 'next/image';
 import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import Link from 'next/link'; // Importing Link for navigation
-import { useUser } from '@clerk/clerk-react';
+// import { useUser } from '@clerk/clerk-react';
 
 const Navbar = () => {
   return (

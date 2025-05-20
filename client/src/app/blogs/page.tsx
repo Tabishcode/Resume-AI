@@ -2,10 +2,23 @@
 import React, { useEffect, useState } from 'react';
 
 const Page = () => {
-    const [articles, setArticles] = useState([]);
+    interface Article {
+        source: {
+            name: string;
+        };
+        author: string;
+        title: string;
+        description: string;
+        url: string;
+        urlToImage: string;
+        publishedAt: string;
+        content: string;
+    }
+    const [articles, setArticles] = useState<Article[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    
+      
     useEffect(() => {
         const fetchArticles = async () => {
             try {

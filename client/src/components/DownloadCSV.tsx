@@ -9,7 +9,7 @@ const DownloadCSV = ({ data }) => {
     const downloadCSV = () => {
         const processedData = data.map((obj) => {
             const processedObj = {};
-            for (let key in obj) {
+            for (const key in obj) {
                 if (Array.isArray(obj[key])) {
                     // Convert arrays to strings joined by colons
                     processedObj[key] = convertArrayToString(obj[key]);
