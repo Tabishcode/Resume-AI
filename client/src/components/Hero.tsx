@@ -178,7 +178,7 @@ const Hero = () => {
         <div className="absolute top-20 right-20">
           <Link
             href={{
-              pathname: "/CVParsing",
+              pathname: "/cvparsing",
               query: { message: JSON.stringify(selectedFiles) },
             }}
           />

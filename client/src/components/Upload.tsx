@@ -27,7 +27,7 @@ const UploadComponent = ({ initialFiles }) => {
       }));
       localStorage.setItem("selectedFiles", JSON.stringify(filesMetadata));
       localStorage.setItem("parsedData", JSON.stringify(parsedData));
-      router.push("/CVParsing");
+      router.push("/cvparsing");
     }
   }, [parsedData, files, router]);
 
@@ -115,9 +115,8 @@ const UploadComponent = ({ initialFiles }) => {
         <button
           onClick={handleUpload}
           disabled={loading}
-          className={`bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-full text-lg ${
-            loading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-full text-lg ${loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
         >
           {loading ? "Data is Parsing..." : "Start Parsing"}
         </button>
