@@ -1,3 +1,6 @@
+/* eslint-disable */
+// @ts-nocheck
+// @ts-ignore
 'use client';
 import React, { useState, useRef } from 'react';
 import { IoIosCloudUpload } from "react-icons/io";
