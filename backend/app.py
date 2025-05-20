@@ -9,6 +9,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from sqlalchemy.sql import text
 from convertSource import convert_file
+from dotenv import load_dotenv
+load_dotenv()
 
 
 app = Flask(__name__)
@@ -30,9 +32,8 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 # app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'app.db')}"
 
 # configuration for Azure SQL Database
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    'mssql+pyodbc://saqlain:5241MAfhh$#%40@vitalhubserver.database.windows.net/PersonalDB?driver=ODBC+Driver+18+for+SQL+Server'
-)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize SQLAlchemy
