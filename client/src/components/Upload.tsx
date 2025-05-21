@@ -27,7 +27,7 @@ const UploadComponent = ({ initialFiles }) => {
       }));
       localStorage.setItem("selectedFiles", JSON.stringify(filesMetadata));
       localStorage.setItem("parsedData", JSON.stringify(parsedData));
-      router.push("/cvparsing");
+      router.push("/CvParsing");
     }
   }, [parsedData, files, router]);
 

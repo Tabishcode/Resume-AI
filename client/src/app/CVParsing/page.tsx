@@ -6,7 +6,7 @@ import axios from 'axios';
 import DownloadCSV from '@/components/DownloadCSV';
 import { useUser } from '@clerk/clerk-react';
 
-const cvparsing = () => {
+const CvParsing = () => {
     const { user } = useUser();
     const userId = user?.id ?? '';
 
@@ -206,4 +206,4 @@ const cvparsing = () => {
     );
 };
 
-export default cvparsing;
+export default CvParsing;
