@@ -11,7 +11,7 @@ import re
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 # Configure Google Generative AI
-genai.configure(api_key="AIzaSyCVQrjwFICZsZUJ52rRU2Me7l9xRmyAMDs")
+genai.configure(api_key="API Key of gemini")
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Load YOLO model
