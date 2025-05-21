@@ -5,9 +5,7 @@ import FAQs from "@/components/FAQs";
 export default function Page() {
   return (
     <>
-      <Hero />
-      <ResumeParserFeatures />
-      <FAQs />
+      hello world
     </>
   );
 }
