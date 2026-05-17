@@ -4,10 +4,6 @@
 
 An AI-powered full-stack web application that parses resumes, extracts key information, and displays it in an easy-to-read format. Built to help recruiters and job seekers quickly analyze resumes and generate reports.
 
-## Live Demo
-
-[Insert live demo link here if available]
-
 ## Features
 
 - Upload and parse resumes (PDF, DOCX supported)
